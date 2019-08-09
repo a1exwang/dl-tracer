@@ -1,11 +1,10 @@
-.global enter_trace
-.global leave_trace
-.global stack_dump
-.global read1
-.global read_original
-.global wtf
+.text
+    .global enter_trace
+    .global leave_trace
+    .global stack_dump
+    .global read1
+    .global read_original
 
-wtf:
 read1:
   push %rbp
   mov %rsp, %rbp
@@ -58,7 +57,11 @@ read1:
 
   mov %rbp, %rsp
   pop %rbp
-  lea read_original(%rip), %rax
+
+  lea read_original@GOTPCREL(%rip), %rax
+  mov (%rax), %rax
+
+  mov (%rax), %rax
   jmp *%rax
 
 
