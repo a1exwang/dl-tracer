@@ -5,6 +5,7 @@
     .global ${function_name}
     .global ${function_end}
     .global ${function_original}
+    .global ${function_tracer}
 
 ${function_name}:
  push %rbp
@@ -28,6 +29,7 @@ ${function_name}:
   jne .function.exit
 
   call stack_dump@plt
+  call ${function_tracer}@plt
   call leave_trace@plt
 
 .function.exit:

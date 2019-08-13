@@ -11,3 +11,6 @@ void my_initialize() {
     ${function_original} = (void*)dlsym(RTLD_NEXT, "${function_name}");
   }
 }
+
+void ${function_tracer}() {
+}
