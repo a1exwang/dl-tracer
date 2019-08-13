@@ -1,0 +1,51 @@
+.text
+    .global enter_trace
+    .global leave_trace
+    .global stack_dump
+    .global ${function_name}
+    .global ${function_end}
+    .global ${function_original}
+
+${function_name}:
+ push %rbp
+  mov %rsp, %rbp
+
+  push %rdx
+  push %rsi
+  push %rdi
+  push %rcx
+  push %r8
+  push %r9
+
+  /*if (enter_trace() == 0) {
+    stack_dump();
+    leave_trace();
+  }
+  return original_func(args...);*/
+
+  call enter_trace@plt
+  cmp $$0, %eax
+  jne .function.exit
+
+  call stack_dump@plt
+  call leave_trace@plt
+
+.function.exit:
+  pop %r9
+  pop %r8
+  pop %rcx
+  pop %rdi
+  pop %rsi
+  pop %rdx
+
+  mov %rbp, %rsp
+  pop %rbp
+
+  lea ${function_original}@GOTPCREL(%rip), %rax
+  mov (%rax), %rax
+
+  mov (%rax), %rax
+  jmp *%rax
+${function_end}:
+  nop
+  ret

@@ -1,0 +1,13 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+#include <dlfcn.h>
+
+void *${function_original} = 0;
+
+__attribute__((constructor(200))) static
+void my_initialize() {
+  if (${function_original} == 0) {
+    ${function_original} = (void*)dlsym(RTLD_NEXT, "${function_name}");
+  }
+}
