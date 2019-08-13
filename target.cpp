@@ -2,7 +2,11 @@
 #include <map>
 #include <thread>
 #include <mutex>
+#include <libunwind.h>
 
+
+extern "C" ssize_t read1(int __fd, void *__buf, size_t __nbytes);
+extern "C" void read1_end();
 static std::map<std::thread::id, int> prevent_reentry;
 static std::mutex pr_lock;
 
@@ -56,20 +60,8 @@ void leave_trace() {
   prevent_reentry.erase(std::this_thread::get_id());
 }
 
-//ssize_t real_read(int fd, void *data, size_t size) {
-//
-//  if (enter_trace()) {
-//    return read_original(fd, data, size);
-//  }
-//
-//  stack_dump();
-//
-//  auto ret = read_original(fd, data, size);
-//
-//  leave_trace();
-//
-//  return ret;
-//}
+extern "C" ssize_t read(int __fd, void *__buf, size_t __nbytes);
+extern "C" void read_end();
 
 __attribute__((constructor(200))) static
 void my_initialize() {
@@ -79,6 +71,8 @@ void my_initialize() {
   if (read_original == nullptr) {
     read_original = (read_original_t)(dlsym(RTLD_NEXT, "read"));
   }
+
+  printf("my initialize done\n");
 }
 
 

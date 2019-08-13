@@ -2,11 +2,12 @@
     .global enter_trace
     .global leave_trace
     .global stack_dump
-    .global read1
-    .global read1_end
+    .global read
+    .global read_end
     .global read_original
+    .global my_get_rbp
 
-read1:
+read:
   push %rbp
   mov %rsp, %rbp
 
@@ -46,6 +47,10 @@ read1:
 
   mov (%rax), %rax
   jmp *%rax
-read1_end:
+read_end:
   nop
+  ret
+
+my_get_rbp:
+  mov %rbp, %rax
   ret
