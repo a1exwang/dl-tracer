@@ -22,7 +22,7 @@ def generate_tracer(template, function_name):
 def generate_compile_command(files, output_file):
     includes = ["-I3rdparty/backward-cpp"]
     shared_libs = ["-ldl", "-ldw", "-lbfd", "-lunwind", "-lunwind-x86_64", "-lbacktrace"]
-    cmd = ["g++", "-o", output_file, "-fvisibility=hidden", "-shared", "-fPIC", *includes, *files, *shared_libs]
+    cmd = ["g++", "-o", output_file, "-static-libstdc++", "-static-libgcc", "-fvisibility=hidden", "-shared", "-fPIC", *includes, *files, *shared_libs]
     print(' '.join(cmd))
 
     return "#!/bin/bash\nset -xue\n%s" % (' '.join(cmd),)

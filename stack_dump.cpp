@@ -115,11 +115,11 @@ void stack_dump_frame_pointer() {
 }
 
 void stack_dump() {
-  stack_dump_with_libbacktrace();
-  stack_dump_with_backward_cpp();
-  stack_dump_with_backtrace();
+//  stack_dump_with_libbacktrace();
+//  stack_dump_with_backward_cpp();
+//  stack_dump_with_backtrace();
   stack_dump_with_libunwind();
-  stack_dump_frame_pointer();
+//  stack_dump_frame_pointer();
 }
 
 }

@@ -12,5 +12,19 @@ void my_initialize() {
   }
 }
 
+static void my_tracer_code();
+
+extern "C" {
+
+__attribute__((visibility("default")))
 void ${function_tracer}() {
+    my_tracer_code();
+}
+
+}
+
+#include <stdio.h>
+static void my_tracer_code() {
+    // Write your custom trace code here.
+    printf("my trace code\n");
 }

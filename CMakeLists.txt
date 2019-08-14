@@ -19,4 +19,4 @@ target_include_directories(dl_tracer_plugin PUBLIC 3rdparty/backward-cpp)
 target_link_libraries(dl_tracer_plugin PUBLIC dl dw bfd unwind unwind-x86_64 backtrace)
 
 add_executable(dl_tracer_test dl_tracer_test.cpp)
-target_link_libraries(dl_tracer_test PUBLIC dl_tracer_plugin dl)
+#target_link_libraries(dl_tracer_test PUBLIC dl_tracer_plugin dl)
